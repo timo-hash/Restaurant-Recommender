@@ -22,26 +22,8 @@ dict_to_json(Dict, JSONFileName) :-
     json_write_dict(Out, Dict),
     close(Out).
 
-
-% json_to_dict('response.json').
-
 %% Converts JSON to dictionary
-json_to_dict(FilePath) :-
+json_to_dict(FilePath, Dict) :-
     open(FilePath, read, In),
     json_read_dict(In, Dict),
-    close(In),
-
-    % Access elements of the JSON dictionary
-    get_Businesses_Dict(Dict, ListOfBusiness),
-    get_first(ListOfBusiness, Restaurant),
-    get_rating(Restaurant).
-    
-get_Businesses_Dict(ResponseDict, BusinessesList) :-
-    BusinessesList = ResponseDict.get('businesses').
-
-get_rating(SingleRestaurant) :-
-    Rating = SingleRestaurant.get('rating'),
-    write('Rating: '), write(Rating), nl.
-
-get_first([H|_], H).
-get_first([E], E).
+    close(In).
