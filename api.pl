@@ -1,5 +1,5 @@
 
-% yelp_fusion_api_call('res.json').
+% yelp_fusion_api_call('response.json').
 
 :- use_module(library(http/json)).
 :- use_module(library(http/http_open)).
@@ -23,7 +23,7 @@ dict_to_json(Dict, JSONFileName) :-
     close(Out).
 
 
-% json_to_dict('res.json').
+% json_to_dict('response.json').
 
 %% Converts JSON to dictionary
 json_to_dict(FilePath) :-
