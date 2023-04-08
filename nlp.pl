@@ -58,8 +58,8 @@ det(["a" | L],L,C,C).
 det(L,L,C,C).
 
 ask(Q,QPs) :-
-    get_query_params(Q,QPs).
-    % prove_something(C).
+    get_query_params(Q,QPs),
+    write("debug: QPs = "), write(QPs). % debug
 
 get_query_params(Q,QPs) :-
     question(Q,End,QPs,[]),
