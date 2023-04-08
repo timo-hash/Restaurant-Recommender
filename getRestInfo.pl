@@ -1,4 +1,4 @@
-consult('api.pl').
+:- [api].
 
 
 % get_first_property('response.json', get_rating).

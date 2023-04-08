@@ -1,6 +1,6 @@
-:- consult('api.pl').
-:- consult('nlp.pl').
-:- consult('getRestInfo.pl').
+:- [api].
+:- [nlp].
+:- [getRestInfo].
 
 % What is a restaurant in Sydney with deals?
 
@@ -11,8 +11,13 @@ askFor(Suggestion) :-
 
     read_line_to_string(user_input, St), 
     split_string(St, " -", " ,?.!-", ListOfWords), % ignore punctuation
-    ask(ListOfWords, RequestParams),
+    ask(ListOfWords, RequestParamsList),
+
+    request_to_query_params(RequestParamsList, QueryParamList),
+    make_api_call(QueryParamList, "response.json"),
+    json_to_dict("response.json", Dict).
+
     
 askFor(Suggestion) :-
     write("No more answers\n"),
-    start.
+    askFor(Suggestion).

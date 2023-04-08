@@ -3,19 +3,32 @@
 
 :- use_module(library(http/json)).
 :- use_module(library(http/http_open)).
-:- use_module('apiKey.pl').
+:- [apiKey].
 
+%% constants
 baseURL('https://api.yelp.com/v3/businesses/search?').
-defaultApiSetting('sort_by=best_match&limit=20&').
-    
+defaultApiSetting('term=restaurants&sort_by=best_match&limit=20&').
 
+make_api_call(QueryParamList, OutputJSONFileName) :-
+    create_api_URL(QueryParamList, URL),
+    yelp_fusion_api_call(URL, OutputJSONFileName).
+
+create_api_URL(QueryParamList, URL) :-
+    baseURL(Base),
+    defaultApiSetting(Setting),
+    atomic_concat(Base,Setting,R),
+
+    create_query_param_URL(QueryParamList, QueryParamTailURL),
+    atomic_concat(R,QueryParamTailURL,URL).
 
 %% Makes the API call and retrieves response in JSON format
-yelp_fusion_api_call(OutputJSONFileName) :-
-    atomic_concat('https://api.yelp.com/v3/businesses/search?', 'location=sydney&term=restaurants&sort_by=best_match&limit=20', URL),
-    http_open(URL,
+yelp_fusion_api_call(API_URL, OutputJSONFileName) :-
+    write(KEY), write("\n"),
+    write(API_URL),
+    yelpFusionApiKey(KEY),
+    http_open(API_URL,
               In,
-              [authorization(bearer(yelpFusionApiKey(KEY))),
+              [authorization(bearer(KEY)),
             request_header('accept': 'application/json')]),
     json_read_dict(In, Dict),
     close(In),
@@ -57,7 +70,3 @@ remove_last_char(Str, NewStr) :-
     Len > 0,
     SubLen is Len - 1,
     substring(Str, 1, SubLen, NewStr).
-
-
-% create_api_URL() :-
-%     at

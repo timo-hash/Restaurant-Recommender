@@ -26,7 +26,7 @@ noun_phrase(L0,L5,C0,C5) :-
     oap(L4,L5,C4,C5).
 
 % location phrase
-locPhrase(["in", City | L], L, [requestParam("location", City) | C], C).
+locPhrase(["in", City | L], L, [queryParam("location", City) | C], C).
 
 % optional attribute phrase
 oap(L0,L2,C0,C2) :-
@@ -38,8 +38,8 @@ connectingPhrase(["with" | L],L,C,C).
 connectingPhrase(["that", "has" | L],L,C,C).
 
 % additional properties
-ap(["deals" | L], L, [requestParam("attribute", "deals") | C], C).
-ap(["outdoor", "seating" | L], L, [requestParam("attribute", "outdoor_seating") | C], C).
+ap(["deals" | L], L, [queryParam("attribute", "deals") | C], C).
+ap(["outdoor", "seating" | L], L, [queryParam("attribute", "outdoor_seating") | C], C).
 
 adjectives(L0,L2,C0,C2) :-
     adj(L0,L1,C0,C1),
