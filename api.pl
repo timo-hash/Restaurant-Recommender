@@ -3,8 +3,10 @@
 
 :- use_module(library(http/json)).
 :- use_module(library(http/http_open)).
+:- use_module('apiKey.pl').
 
 baseURL('https://api.yelp.com/v3/businesses/search?').
+defaultApiSetting('sort_by=best_match&limit=20&').
     
 
 
@@ -13,7 +15,7 @@ yelp_fusion_api_call(OutputJSONFileName) :-
     atomic_concat('https://api.yelp.com/v3/businesses/search?', 'location=sydney&term=restaurants&sort_by=best_match&limit=20', URL),
     http_open(URL,
               In,
-              [authorization(bearer(KEY)),
+              [authorization(bearer(yelpFusionApiKey(KEY))),
             request_header('accept': 'application/json')]),
     json_read_dict(In, Dict),
     close(In),
@@ -44,19 +46,18 @@ create_query_param_URL(QueryParamList, QueryParamURLSub) :-
     remove_last_char(QueryParamURL, QueryParamURLSub).
 
 query_param_URL_helper([queryParam(K,V)], S) :-
-    build_single_param(queryParam(K,V), S).
+    atomic_list_concat([K,'=',V,&], S). % builds a single parameter
 query_param_URL_helper([queryParam(K,V)|T],R) :-
-    build_single_param(queryParam(K,V), S),
+    atomic_list_concat([K,'=',V,&], S),
     query_param_URL_helper(T,R1),
-    atomic_list_concat([S,R1], R).
-  
-build_single_param(queryParam(K,V), StringParam) :-
-  atomic_list_concat([K,'='], S1),
-  atomic_list_concat([S1,V], S2),
-  atomic_list_concat([S2,'&'], StringParam).
+    string_concat(S,R1,R).
 
 remove_last_char(Str, NewStr) :-
     string_length(Str, Len),
     Len > 0,
     SubLen is Len - 1,
     substring(Str, 1, SubLen, NewStr).
+
+
+% create_api_URL() :-
+%     at

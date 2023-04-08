@@ -1,10 +1,6 @@
 % ask(["What", "is", "a", "restaurant", "in", "Sydney"], A).
 % ask(["What", "is", "a", "restaurant", "in", "Sydney", "with", "deals"], A).
 
-start :- 
-    write("Welcome to our restaurant recommender \n\n"),
-    write("To start...").
-
 
 % question(["Is" | L0],L2,C0,C2) :-
 %     noun_phrase(L0,L1,C0,C1),
@@ -30,7 +26,7 @@ noun_phrase(L0,L5,C0,C5) :-
     oap(L4,L5,C4,C5).
 
 % location phrase
-locPhrase(["in", City | L], L, [queryParam("location", City) | C], C).
+locPhrase(["in", City | L], L, [requestParam("location", City) | C], C).
 
 % optional attribute phrase
 oap(L0,L2,C0,C2) :-
@@ -42,8 +38,8 @@ connectingPhrase(["with" | L],L,C,C).
 connectingPhrase(["that", "has" | L],L,C,C).
 
 % additional properties
-ap(["deals" | L], L, [queryParam("attribute", "deals") | C], C).
-ap(["outdoor", "seating" | L], L, [queryParam("attribute", "outdoor_seating") | C], C).
+ap(["deals" | L], L, [requestParam("attribute", "deals") | C], C).
+ap(["outdoor", "seating" | L], L, [requestParam("attribute", "outdoor_seating") | C], C).
 
 adjectives(L0,L2,C0,C2) :-
     adj(L0,L1,C0,C1),
@@ -58,12 +54,9 @@ det(["a" | L],L,C,C).
 det(L,L,C,C).
 
 ask(Q,QPs) :-
-    get_query_params(Q,QPs),
+    get_request_params(Q,QPs),
     write("debug: QPs = "), write(QPs). % debug
 
-get_query_params(Q,QPs) :-
-    question(Q,End,QPs,[]),
+get_request_params(Q,RPs) :-
+    question(Q,End,RPs,[]),
     member(End,[[],["?"],["."]]).
-
-qp_to_string(queryParam(K,V), String) :-
-    atomic_list_concat([K,V], String).

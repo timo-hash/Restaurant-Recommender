@@ -11,7 +11,8 @@ askFor(Suggestion) :-
 
     read_line_to_string(user_input, St), 
     split_string(St, " -", " ,?.!-", ListOfWords), % ignore punctuation
-    ask(ListOfWords, Suggestion).
+    ask(ListOfWords, RequestParams),
+    
 askFor(Suggestion) :-
     write("No more answers\n"),
     start.
