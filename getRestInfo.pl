@@ -9,16 +9,16 @@ check_any_results_returned(Dict, HaveResult) :-
     more_than_0(NumberOfItems, HaveResult).
 
 more_than_0(X, hasResultsJSON) :-
-    X > 0.
+    X > 0, !.
 more_than_0(_, noResultsJSON).
 
 % get_first_property('response.json', get_rating).
 % get_first_property('response.json', get_price).
 % get_first_property('response.json', get_name).
-get_first_property(Dict, Property) :-
+get_first_property(Dict, Property, ReturnedResult) :-
     get_Businesses_Dict(Dict, ListOfBusiness),
     get_first(ListOfBusiness, Restaurant),
-    call(Property, Restaurant).
+    call(Property, Restaurant, ReturnedResult).
 
 get_Businesses_Dict(ResponseDict, BusinessesList) :-
     BusinessesList = ResponseDict.get('businesses').
@@ -31,9 +31,10 @@ get_price(SingleRestaurant) :-
     Price = SingleRestaurant.get('price'),
     write('Price: '), write(Price), nl.
 
-get_name(SingleRestaurant) :-
-    Name = SingleRestaurant.get('name'),
-    write('Name: '), write(Name), nl.
+get_name(SingleRestaurant, Name) :-
+    Name = SingleRestaurant.get('name').
 
 get_first([H|_], H).
 get_first([E], E).
+
+% my_map([H|_], H)
