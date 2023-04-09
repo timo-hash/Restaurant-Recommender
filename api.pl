@@ -23,8 +23,6 @@ create_api_URL(QueryParamList, URL) :-
 
 %% Makes the API call and retrieves response in JSON format
 yelp_fusion_api_call(API_URL, OutputJSONFileName, ResponseDict) :-
-    write(KEY), write("\n"),
-    write(API_URL),
     yelpFusionApiKey(KEY),
     http_open(API_URL,
               In,

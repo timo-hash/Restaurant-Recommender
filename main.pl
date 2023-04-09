@@ -24,11 +24,10 @@ askFor(Recommendation) :-
         write("Sorry, we couldn't find any recommendations for you search, please try again\n"),
         (fail)
         ;
-        write("yes\n"),
         true 
     ),
     get_first_restaurant_info(ResponseDict, Recommendation).
     
 askFor(Recommendation) :-
-    write("No more answers\n"),
+    write("No more answers\n\n"),
     askFor(Recommendation).

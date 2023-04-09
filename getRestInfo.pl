@@ -40,13 +40,11 @@ get_price(SingleRestaurant) :-
 get_info(SingleRestaurant, PropertyName, JSONProperty, RestaurantInfoList, [AddInfo | RestaurantInfoList]) :-
     RetrievedValue = SingleRestaurant.get(JSONProperty),
     atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo),
-    write(AddInfo),
     !.
 
 get_info(SingleRestaurant, PropertyName, JSONProperty, [], [AddInfo]) :-
     RetrievedValue = SingleRestaurant.get(JSONProperty),
-    atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo),
-    write(AddInfo).
+    atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo).
 
 
 get_first([H|_], H).
