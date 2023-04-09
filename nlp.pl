@@ -87,7 +87,7 @@ adj(["australian" | L], L,  [queryParam("categories", "australian") | C], C).
 adj(["cantonese" | L], L,  [queryParam("categories", "cantonese") | C], C).
 adj(["australian" | L], L,  [queryParam("categories", "australian") | C], C).
 adj(["thai" | L], L,  [queryParam("categories", "thai") | C], C).
-adj(["asian" "fusion"| L], L,  [queryParam("categories", "asianfusion") | C], C).
+adj(["asian", "fusion"| L], L,  [queryParam("categories", "asianfusion") | C], C).
 adj(["italian" | L], L,  [queryParam("categories", "italian") | C], C).
 adj(["malaysian" | L], L,  [queryParam("categories", "malaysian") | C], C).
 adj(["singaporean" | L], L,  [queryParam("categories", "singaporean") | C], C).
