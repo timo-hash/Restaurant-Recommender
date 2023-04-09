@@ -3,13 +3,14 @@
 :- [getRestInfo].
 
 % What is a restaurant in Sydney with deals?
+% What is a restaurant in Sydney?
 
-start(Suggestion) :-
+start(Recommendation) :-
     write("Welcome!!\n"),
-    write("We are here to give you restaurant suggestions \n\n"),
-    askFor(Suggestion).
+    write("We are here to give you restaurant recommendations \n\n"),
+    askFor(Recommendation).
 
-askFor(Suggestion) :- 
+askFor(Recommendation) :- 
     write("What restaurants would you want to find?\n"), flush_output(current_output),
 
     read_line_to_string(user_input, St), 
@@ -26,8 +27,8 @@ askFor(Suggestion) :-
         write("yes\n"),
         true 
     ),
-    get_first_property(ResponseDict, get_name, Suggestion).
+    get_first_restaurant_info(ResponseDict, Recommendation).
     
-askFor(Suggestion) :-
+askFor(Recommendation) :-
     write("No more answers\n"),
-    askFor(Suggestion).
+    askFor(Recommendation).
