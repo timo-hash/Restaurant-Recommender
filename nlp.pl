@@ -14,7 +14,7 @@ question(["What","is" | L0],L1,C0,C1) :-
 %     mp(L0,L1,C0,C1).
 
 description_phrase(L0,L5,C0,C5) :-
-    det(L0,L1,C0,C1),
+    count(L0,L1,C0,C1),
     adjectives(L1,L2,C1,C2),
     noun(L2,L3,C2,C3),
     locPhrase(L3,L4,C3,C4),
@@ -66,9 +66,17 @@ get_request_params(Q,RPs) :-
     question(Q,End,RPs,[]),
     member(End,[[],["?"],["."]]).
 
-det(["the" | L],L,C,C).
-det(["a" | L],L,C,C).
-det(L,L,C,C).
+
+%% from the parsed question, find the number of restaurants requested by the user 
+number_of_item_requested(RequestParamsList, Num) :-
+    member(numOfRes(Num), RequestParamsList).
+
+count(["a" | L],L,[numOfRest(1)| C],C).
+count(["an" | L],L,[numOfRest(1)| C],C).
+count(["1" | L],L,[numOfRest(1)| C],C).
+count(["one" | L],L,[numOfRest(1)| C],C).
+count(L,L,[numOfRest(1)| C],C).
+
 
 noun(["restaurant" | L], L,  C, C).
 noun(["place" | L], L,  C, C).

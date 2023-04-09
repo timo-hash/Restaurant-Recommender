@@ -26,8 +26,9 @@ askFor(Suggestion) :-
         ;
         write("yes"),
         true 
-    ).
-
+    ),
+    get_first_property(ResponseDict, get_name),
+    get_first_property(ResponseDict, get_rating).
     
 askFor(Suggestion) :-
     write("No more answers\n"),

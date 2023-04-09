@@ -1,11 +1,21 @@
 :- [api].
 
+haveResultsJSON.
+noResultsJSON.
+
+%% used to determine if there are any item in the response JSON object
+check_any_results_returned(Dict, HaveResult) :-
+    NumberOfItems = Dict.get('total'),
+    more_than_0(NumberOfItems, HaveResult).
+
+more_than_0(X, hasResultsJSON) :-
+    X > 0.
+more_than_0(_, noResultsJSON).
 
 % get_first_property('response.json', get_rating).
 % get_first_property('response.json', get_price).
 % get_first_property('response.json', get_name).
-get_first_property(FilePath, Property) :-
-    json_to_dict(FilePath, Dict),
+get_first_property(Dict, Property) :-
     get_Businesses_Dict(Dict, ListOfBusiness),
     get_first(ListOfBusiness, Restaurant),
     call(Property, Restaurant).
