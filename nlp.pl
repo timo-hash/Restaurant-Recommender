@@ -96,6 +96,8 @@ adj(["european" | L], L,  [queryParam("categories", "modern_european") | C], C).
 adj(["mexican" | L], L,  [queryParam("categories", "mexican") | C], C).
 adj(["indian" | L], L,  [queryParam("categories", "indpak") | C], C).
 adj(["vietnamese" | L], L,  [queryParam("categories", "vietnamese") | C], C).
+adj(["lebanese" | L], L,  [queryParam("categories", "lebanese") | C], C).
+adj(["spanish" | L], L,  [queryParam("categories", "spanish") | C], C).
 
 
 adj(["breakfast" | L], L,  [queryParam("categories", "breakfast_brunch") | C], C).

@@ -9,9 +9,9 @@
 baseURL('https://api.yelp.com/v3/businesses/search?').
 defaultApiSetting('term=restaurants&sort_by=best_match&limit=20&').
 
-make_api_call(QueryParamList, OutputJSONFileName) :-
+make_api_call(QueryParamList, OutputJSONFileName, ResponseDict) :-
     create_api_URL(QueryParamList, URL),
-    yelp_fusion_api_call(URL, OutputJSONFileName).
+    yelp_fusion_api_call(URL, OutputJSONFileName, ResponseDict).
 
 create_api_URL(QueryParamList, URL) :-
     baseURL(Base),
@@ -22,7 +22,7 @@ create_api_URL(QueryParamList, URL) :-
     atomic_concat(R,QueryParamTailURL,URL).
 
 %% Makes the API call and retrieves response in JSON format
-yelp_fusion_api_call(API_URL, OutputJSONFileName) :-
+yelp_fusion_api_call(API_URL, OutputJSONFileName, ResponseDict) :-
     write(KEY), write("\n"),
     write(API_URL),
     yelpFusionApiKey(KEY),
@@ -30,10 +30,10 @@ yelp_fusion_api_call(API_URL, OutputJSONFileName) :-
               In,
               [authorization(bearer(KEY)),
             request_header('accept': 'application/json')]),
-    json_read_dict(In, Dict),
+    json_read_dict(In, ResponseDict),
     close(In),
     % Write JSON response to file
-    dict_to_json(Dict, OutputJSONFileName).
+    dict_to_json(ResponseDict, OutputJSONFileName).
 
 %% writes dictionary to JSON file, file is saved locally
 dict_to_json(Dict, JSONFileName) :-
