@@ -26,7 +26,8 @@ askFor(Recommendation) :-
         ;
         true 
     ),
-    get_num_of_restaurant(ResponseDict, Recommendation).
+    number_of_item_requested(RequestParamsList, Num),
+    get_num_of_restaurant(ResponseDict, Recommendation, Num).
     
 askFor(Recommendation) :-
     write("No more answers. \n\n"),

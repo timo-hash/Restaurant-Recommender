@@ -66,11 +66,18 @@ get_request_params(Q,RPs) :-
     question(Q,End,RPs,[]),
     member(End,[[],["?"],["."]]).
 
-
 %% from the parsed question, find the number of restaurants requested by the user 
-number_of_item_requested(RequestParamsList, Num) :-
-    member(numOfRes(Num), RequestParamsList).
+number_of_item_requested(RequestParamsList, X) :-
+    (member(numOfRest(1), RequestParamsList) ->
+        X is 1
+        ;
+        X is 20
+    ).
+    
 
+count(["some" | L],L,[numOfRest(5)| C],C).
+count(["a", "couple", "of" | L],L,[numOfRest(5)| C],C) :- !.
+count(["a", "few" | L],L,[numOfRest(5)| C],C) :- !.
 count(["a" | L],L,[numOfRest(1)| C],C).
 count(["an" | L],L,[numOfRest(1)| C],C).
 count(["1" | L],L,[numOfRest(1)| C],C).
@@ -79,6 +86,7 @@ count(L,L,[numOfRest(1)| C],C).
 
 
 noun(["restaurant" | L], L,  C, C).
+noun(["restaurants" | L], L,  [numOfRest(5)| C], C).
 noun(["place" | L], L,  C, C).
 noun(["bar" | L], L,  [queryParam("categories", "bars"), queryParam("categories", "cocktailbars"), queryParam("categories", "wine_bars")| C], C).
 noun(["cafe" | L], L,  [queryParam("categories", "cafes") | C], C).
