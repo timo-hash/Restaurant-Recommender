@@ -142,32 +142,59 @@ adj(["moderately", "rated" | L], L, [jsonFilter("rating", 3.5) | C], C).
 adj(["highly", "rated" | L], L, [jsonFilter("rating", 5.0) | C], C).
 
 adj(["Chinese" | L], L,  [queryParam("categories", "chinese") | C], C).
+adj(["chinese" | L], L,  [queryParam("categories", "chinese") | C], C).
 adj(["Australian" | L], L,  [queryParam("categories", "australian") | C], C).
+adj(["australian" | L], L,  [queryParam("categories", "australian") | C], C).
 adj(["Cantonese" | L], L,  [queryParam("categories", "cantonese") | C], C).
+adj(["cantonese" | L], L,  [queryParam("categories", "cantonese") | C], C).
 adj(["Australian" | L], L,  [queryParam("categories", "australian") | C], C).
+adj(["australian" | L], L,  [queryParam("categories", "australian") | C], C).
 adj(["Thai" | L], L,  [queryParam("categories", "thai") | C], C).
+adj(["thai" | L], L,  [queryParam("categories", "thai") | C], C).
 adj(["Asian", "fusion"| L], L,  [queryParam("categories", "asianfusion") | C], C).
+adj(["asian", "fusion"| L], L,  [queryParam("categories", "asianfusion") | C], C).
 adj(["Italian" | L], L,  [queryParam("categories", "italian") | C], C).
+adj(["italian" | L], L,  [queryParam("categories", "italian") | C], C).
 adj(["Malaysian" | L], L,  [queryParam("categories", "malaysian") | C], C).
+adj(["malaysian" | L], L,  [queryParam("categories", "malaysian") | C], C).
 adj(["Singaporean" | L], L,  [queryParam("categories", "singaporean") | C], C).
+adj(["singaporean" | L], L,  [queryParam("categories", "singaporean") | C], C).
 adj(["Australian" | L], L,  [queryParam("categories", "modern_australian") | C], C).
+adj(["australian" | L], L,  [queryParam("categories", "modern_australian") | C], C).
 adj(["European" | L], L,  [queryParam("categories", "modern_european") | C], C).
+adj(["european" | L], L,  [queryParam("categories", "modern_european") | C], C).
 adj(["Mexican" | L], L,  [queryParam("categories", "mexican") | C], C).
+adj(["mexican" | L], L,  [queryParam("categories", "mexican") | C], C).
 adj(["Indian" | L], L,  [queryParam("categories", "indpak") | C], C).
+adj(["indian" | L], L,  [queryParam("categories", "indpak") | C], C).
 adj(["Vietnamese" | L], L,  [queryParam("categories", "vietnamese") | C], C).
+adj(["vietnamese" | L], L,  [queryParam("categories", "vietnamese") | C], C).
 adj(["Lebanese" | L], L,  [queryParam("categories", "lebanese") | C], C).
+adj(["lebanese" | L], L,  [queryParam("categories", "lebanese") | C], C).
 adj(["American" | L], L,  [queryParam("categories", "newamerican") | C], C).
+adj(["american" | L], L,  [queryParam("categories", "newamerican") | C], C).
 adj(["traditional", "American" | L], L,  [queryParam("categories", "tradamerican") | C], C).
+adj(["traditional", "american" | L], L,  [queryParam("categories", "tradamerican") | C], C).
 adj(["British" | L], L,  [queryParam("categories", "british") | C], C).
+adj(["british" | L], L,  [queryParam("categories", "british") | C], C).
 adj(["Canadian" | L], L,  [queryParam("categories", "newcanadian") | C], C).
+adj(["canadian" | L], L,  [queryParam("categories", "newcanadian") | C], C).
 adj(["Korean" | L], L,  [queryParam("categories", "korean") | C], C).
+adj(["korean" | L], L,  [queryParam("categories", "korean") | C], C).
 adj(["Cambodian" | L], L,  [queryParam("categories", "cambodian") | C], C).
+adj(["cambodian" | L], L,  [queryParam("categories", "cambodian") | C], C).
 adj(["Mideastern" | L], L,  [queryParam("categories", "mideastern") | C], C).
+adj(["mideastern" | L], L,  [queryParam("categories", "mideastern") | C], C).
 adj(["French" | L], L,  [queryParam("categories", "french") | C], C).
+adj(["french" | L], L,  [queryParam("categories", "french") | C], C).
 adj(["Mediterranean" | L], L,  [queryParam("categories", "mediterranean") | C], C).
+adj(["mediterranean" | L], L,  [queryParam("categories", "mediterranean") | C], C).
 adj(["Taiwanese" | L], L,  [queryParam("categories", "taiwanese") | C], C).
+adj(["taiwanese" | L], L,  [queryParam("categories", "taiwanese") | C], C).
 adj(["Cajun" | L], L,  [queryParam("categories", "cajun") | C], C).
+adj(["cajun" | L], L,  [queryParam("categories", "cajun") | C], C).
 adj(["Creole" | L], L,  [queryParam("categories", "cajun") | C], C).
+adj(["creole" | L], L,  [queryParam("categories", "cajun") | C], C).
 
 
 adj(["breakfast" | L], L,  [queryParam("categories", "breakfast_brunch") | C], C).
