@@ -1,10 +1,9 @@
 :- [api].
 :- [nlp].
 :- [getRestInfo].
-
 % What is a restaurant in Seattle with deals and outdoor seating?
-% What is a restaurant in Sydney?
 
+%% start here, returns recommendations
 iCannotDecide(Recommendation) :-
     write("Welcome!!\n"),
     write("We are here to give you restaurant recommendations \n\n"),

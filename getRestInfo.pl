@@ -68,10 +68,12 @@ filterListOfBusiness(InputParamList, InputRestList, PriceAndRatingFilteredList) 
         PriceAndRatingFilteredList = PriceFilteredList
     ).
 
+%% given a price value, return true if restaurant object has the same price
 check_price(NumDollarSign, RestaurantDict) :-
     Price = RestaurantDict.get('price'),
     Price == NumDollarSign.
 
+%% given a upper bound rating, return true if the restaurant object has rating within specified range
 check_rating(UpperBoundRating, RestaurantDict) :-
     Rating = RestaurantDict.get('rating'),
     Rating =< UpperBoundRating,

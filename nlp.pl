@@ -1,7 +1,3 @@
-% ask(["What", "is", "a", "restaurant", "in", "Sydney"], A).
-% ask(["What", "is", "a", "restaurant", "in", "Sydney", "with", "deals"], A).
-
-
 question(["Recommend","me" | L0],L1,C0,C1) :-
     description_phrase(L0,L1,C0,C1).
 question(["recommend","me" | L0],L1,C0,C1) :-
@@ -27,21 +23,11 @@ description_phrase(L0,L5,C0,C5) :-
     locPhrase(L3,L4,C3,C4),
     oap(L4,L5,C4,C5).
 
-% location phrase
-locPhrase(["in", City | L], L, [queryParam("location", City) | C], C).
-
 % optional attribute phrase
 oap(L0,L2,C0,C2) :-
     connectingPhrase(L0,L1,C0,C1),
     aps(L1,L2,C1,C2).
 oap(L,L,C,C).
-
-%% phrase used to add additional detail to the previous phrase/noun
-connectingPhrase(["with" | L],L,C,C).
-connectingPhrase(["that", "has" | L],L,C,C).
-connectingPhrase(["that", "have" | L],L,C,C).
-connectingPhrase(["that", "is" | L],L,C,C).
-connectingPhrase(["that", "are" | L],L,C,C).
 
 % additional properties (a, b, and c | a and b)
 aps(L0,L2,C0,C2) :-
@@ -52,9 +38,43 @@ aps(L0,L2,C0,C2) :-
     aps(L1,L2,C1,C2).
 aps(L,L,C,C).
 
+%% represent 1 or more adjetives
+adjectives(L0,L2,C0,C2) :-
+    adj(L0,L1,C0,C1),
+    adjectives(L1,L2,C1,C2).
+adjectives(L,L,C,C).
+
+ask(Q,QPs) :-
+    get_request_params(Q,QPs),
+    write("debug: QPs = "), write(QPs), write("\n"). % debug
+
+get_request_params(Q,RPs) :-
+    question(Q,End,RPs,[]),
+    member(End,[[],["?"],["."]]).
+
+%% Knowledge base
+
+count(["some" | L],L,[numOfRest(5)| C],C).
+count(["a", "couple", "of" | L],L,[numOfRest(5)| C],C) :- !.
+count(["a", "few" | L],L,[numOfRest(5)| C],C) :- !.
+count(["a" | L],L,[numOfRest(1)| C],C).
+count(["an" | L],L,[numOfRest(1)| C],C).
+count(["1" | L],L,[numOfRest(1)| C],C).
+count(["one" | L],L,[numOfRest(1)| C],C).
+count(L,L,[numOfRest(5)| C],C).
+
+% location phrase
+locPhrase(["in", City | L], L, [queryParam("location", City) | C], C).
+
+%% phrase used to add additional detail to the previous phrase/noun
+connectingPhrase(["with" | L],L,C,C).
+connectingPhrase(["that", "has" | L],L,C,C).
+connectingPhrase(["that", "have" | L],L,C,C).
+connectingPhrase(["that", "is" | L],L,C,C).
+connectingPhrase(["that", "are" | L],L,C,C).
+
 %% and
 and_conj(["and" | L],L,C,C).
-
 
 %% user/JSON specific filers
 ap(["cheap" | L], L, [jsonFilter("price", "$") | C], C).
@@ -77,31 +97,6 @@ ap(["wheelchair", "accessible" | L], L, [queryParam("attributes", "wheelchair_ac
 ap(["outdoor", "seating" | L], L, [queryParam("attributes", "outdoor_seating") | C], C).
 ap(["parking" | L], L, [queryParam("attributes", "parking_lot") | C], C).
 ap(["parking", "lot" | L], L, [queryParam("attributes", "parking_lot") | C], C).
-
-%% represent 1 or more adjetives
-adjectives(L0,L2,C0,C2) :-
-    adj(L0,L1,C0,C1),
-    adjectives(L1,L2,C1,C2).
-adjectives(L,L,C,C).
-
-ask(Q,QPs) :-
-    get_request_params(Q,QPs),
-    write("debug: QPs = "), write(QPs), write("\n"). % debug
-
-get_request_params(Q,RPs) :-
-    question(Q,End,RPs,[]),
-    member(End,[[],["?"],["."]]).
-
-
-count(["some" | L],L,[numOfRest(5)| C],C).
-count(["a", "couple", "of" | L],L,[numOfRest(5)| C],C) :- !.
-count(["a", "few" | L],L,[numOfRest(5)| C],C) :- !.
-count(["a" | L],L,[numOfRest(1)| C],C).
-count(["an" | L],L,[numOfRest(1)| C],C).
-count(["1" | L],L,[numOfRest(1)| C],C).
-count(["one" | L],L,[numOfRest(1)| C],C).
-count(L,L,[numOfRest(5)| C],C).
-
 
 noun(["restaurant" | L], L,  C, C).
 noun(["restaurants" | L], L,  [numOfRest(5)| C], C).
@@ -190,7 +185,6 @@ adj(["noodles" | L], L,  [queryParam("categories", "noodles") | C], C).
 adj(["hotpot" | L], L,  [queryParam("categories", "hotpot") | C], C).
 adj(["hotpot" | L], L,  [queryParam("categories", "sandwiches") | C], C).
 adj(["hotpot" | L], L,  [queryParam("categories", "hotdogs") | C], C).
-
 % adj([_ | L], L, C, C).
 
 adj(["vegan" | L], L,  [queryParam("categories", "vegan") | C], C).

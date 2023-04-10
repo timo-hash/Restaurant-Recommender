@@ -7,12 +7,15 @@
 
 %% constants
 baseURL('https://api.yelp.com/v3/businesses/search?').
-defaultApiSetting('term=restaurants&sort_by=best_match&limit=20&').
+% max limit = 50, max offset = 1000. Adjust offset to get different results
+defaultApiSetting('term=restaurants&sort_by=best_match&limit=50&offset=0&').
 
+%% creates API url, makes API call and retrieves response
 make_api_call(QueryParamList, OutputJSONFileName, ResponseDict) :-
     create_api_URL(QueryParamList, URL),
     yelp_fusion_api_call(URL, OutputJSONFileName, ResponseDict).
 
+%% creates API url based on user input
 create_api_URL(QueryParamList, URL) :-
     baseURL(Base),
     defaultApiSetting(Setting),
@@ -68,32 +71,35 @@ find_categories_query_param(QP, CQP) :-
 find_location_query_param(QP, LQP) :-
     findall(queryParam("location",V), member(queryParam("location",V), QP), LQP).
 
-% [queryParam("location","Sydney"),queryParam("attributes","deals"),queryParam("attributes","outdoor_seating")]
 
+%% concatenates all query parameters into a string from user input
 create_query_param_URL(QueryParamList, QueryParamURLEndingRemoved) :-
     find_location_query_param(QueryParamList, LocationList),
-    build_query_parm_URL(LocationList, LocationParamURL),
+    build_query_param_URL(LocationList, LocationParamURL),
     find_categories_query_param(QueryParamList, CategoriesList),
-    build_query_parm_URL(CategoriesList, CategoriesParamURL),
+    build_query_param_URL(CategoriesList, CategoriesParamURL),
     find_attributes_query_param(QueryParamList, AttributesList),
-    build_query_parm_URL(AttributesList, AttributesParamURL),
+    build_query_param_URL(AttributesList, AttributesParamURL),
     atomic_list_concat([LocationParamURL, CategoriesParamURL, AttributesParamURL], QueryParamURL),
     remove_last_char(QueryParamURL, QueryParamURLEndingRemoved).
 
-build_query_parm_URL([], "") :- !.
-build_query_parm_URL([queryParam(K,V)], S) :-
+%% build a singple query parameter string from user input
+build_query_param_URL([], "") :- !.
+build_query_param_URL([queryParam(K,V)], S) :-
     atomic_list_concat([K,'=',V,'&'], S), % builds a single parameter
     !.
-build_query_parm_URL([queryParam(K,V)|T],R) :-
+build_query_param_URL([queryParam(K,V)|T],R) :-
     atomic_list_concat([K,'=',V,','], S),
     concat_other_params(T,R1),
     atomic_list_concat([S,R1,'&'],R).
 
+%% concatenates query parameter values with the same key to string
 concat_other_params([queryParam(_,V)], V) :- !.
 concat_other_params([queryParam(_,V) | Tail], CommaSepString) :-
     atomic_list_concat([V,',',OtherCommaSepString], CommaSepString),
     concat_other_params(Tail, OtherCommaSepString).
 
+%% remove last character from string
 remove_last_char(Str, NewStr) :-
     string_length(Str, Len),
     Len > 0,
