@@ -46,15 +46,19 @@ json_to_dict(FilePath, Dict) :-
     json_read_dict(In, Dict),
     close(In).
 
+%% Given a list of all the request parsed, return a list of only query parameters
 request_to_query_params(Requests, Queries) :-
     findall(queryParam(K,V), member(queryParam(K,V), Requests), Queries).
 
+%% Given a list of all query parameters, return a list with only attributes parameter
 find_attributes_query_param(QP, AQP) :-
     findall(queryParam("attributes",V), member(queryParam("attributes",V), QP), AQP).
 
+%% Given a list of all query parameters, return a list with only categories parameter
 find_categories_query_param(QP, CQP) :-
     findall(queryParam("categories",V), member(queryParam("categories",V), QP), CQP).
 
+%% Given a list of all query parameters, return a list with only location parameter
 find_location_query_param(QP, LQP) :-
     findall(queryParam("location",V), member(queryParam("location",V), QP), LQP).
 

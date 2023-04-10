@@ -5,13 +5,13 @@
 % What is a restaurant in Seattle with deals and outdoor seating?
 % What is a restaurant in Sydney?
 
-start(Recommendation) :-
+iCannotDecide(Recommendation) :-
     write("Welcome!!\n"),
     write("We are here to give you restaurant recommendations \n\n"),
     askFor(Recommendation).
 
 askFor(Recommendation) :- 
-    write("What restaurants would you want to find?\n"), flush_output(current_output),
+    write("What are you looking for?\n"), flush_output(current_output),
 
     read_line_to_string(user_input, St), 
     split_string(St, " -", " ,?.!-", ListOfWords), % ignore punctuation
@@ -26,8 +26,7 @@ askFor(Recommendation) :-
         ;
         true 
     ),
-    number_of_item_requested(RequestParamsList, Num),
-    get_num_of_restaurant(ResponseDict, Recommendation, Num).
+    get_num_of_restaurant(ResponseDict, RequestParamsList, Recommendation).
     
 askFor(Recommendation) :-
     write("No more answers. \n\n"),

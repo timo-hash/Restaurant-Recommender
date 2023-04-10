@@ -13,15 +13,16 @@ more_than_0(X, hasResultsJSON) :-
     X > 0, !.
 more_than_0(_, noResultsJSON).
 
-get_num_of_restaurant(Dict, ReturnedResult, Num) :-
-    get_Businesses_Dict(Dict, ListOfBusiness),
-    (Num == 1 ->
-        get_first_restaurant_info(ListOfBusiness, ReturnedResult)
+get_num_of_restaurant(Dict, RequestParamsList, ReturnedResult) :-
+    get_Businesses_Dict(Dict, BusinessList),
+    filterListOfBusiness(RequestParamsList, BusinessList, FilteredBusinessList),
+    (member(numOfRest(1), RequestParamsList) ->
+        get_first_restaurant_info(FilteredBusinessList, ReturnedResult)
         ;
-        get_all_restaurant_info(ListOfBusiness, ReturnedResult)
+        get_all_restaurant_info(FilteredBusinessList, ReturnedResult)
     ).
     
-
+%% get information on the first restaurant that was returned
 get_first_restaurant_info(ListOfBusiness, ReturnedResult) :-
     get_first(ListOfBusiness, Restaurant),
     retrieveInfo(Restaurant, ReturnedResult).
@@ -45,11 +46,37 @@ get_info(SingleRestaurant, PropertyName, JSONProperty, RestaurantInfoList, [AddI
 
 %% extract the name, phone #, website and rating of a restaurant(Dict)
 retrieveInfo(Restaurant, ReturnedResult) :-
-    call(get_info, Restaurant, 'Rating', 'rating', [], R),
-    call(get_info, Restaurant, 'Website', 'url', R, R1),
-    call(get_info, Restaurant, 'Phone no.', 'phone', R1, R2),
-    call(get_info, Restaurant, 'Name', 'name', R2, ReturnedResult).
+    call(get_info, Restaurant, 'Price', 'price', [], R),
+    call(get_info, Restaurant, 'Rating', 'rating', R, R1),
+    call(get_info, Restaurant, 'Website', 'url', R1, R2),
+    call(get_info, Restaurant, 'Phone no.', 'phone', R2, R3),
+    call(get_info, Restaurant, 'Name', 'name', R3, ReturnedResult).
 
+%% filters a list of Business objects for certain price and rating
+filterListOfBusiness(InputParamList, InputRestList, PriceAndRatingFilteredList) :-
+    % filter list for price if possible
+    (member(jsonFilter("price", P), InputParamList) ->
+        include(check_price(P), InputRestList, PriceFilteredList)
+        ;
+        PriceFilteredList = InputRestList
+    ),
+
+    % filter list for rating if possible
+    (member(jsonFilter("rating", R), InputParamList) ->
+        include(check_rating(R), PriceFilteredList, PriceAndRatingFilteredList)
+        ;
+        PriceAndRatingFilteredList = PriceFilteredList
+    ).
+
+check_price(NumDollarSign, RestaurantDict) :-
+    Price = RestaurantDict.get('price'),
+    Price == NumDollarSign.
+
+check_rating(UpperBoundRating, RestaurantDict) :-
+    Rating = RestaurantDict.get('rating'),
+    Rating =< UpperBoundRating,
+    LowerBound is UpperBoundRating - 1.5,
+    Rating > LowerBound.
 
 %% get first item from list
 get_first([E], E).
