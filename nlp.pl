@@ -2,16 +2,22 @@
 % ask(["What", "is", "a", "restaurant", "in", "Sydney", "with", "deals"], A).
 
 
-% question(["Is" | L0],L2,C0,C2) :-
-%     description_phrase(L0,L1,C0,C1),
-%     mp(L1,L2,C1,C2).
+question(["Recommend","me" | L0],L1,C0,C1) :-
+    description_phrase(L0,L1,C0,C1).
+question(["recommend","me" | L0],L1,C0,C1) :-
+    description_phrase(L0,L1,C0,C1).
+question(["Give","me" | L0],L1,C0,C1) :-
+    description_phrase(L0,L1,C0,C1).
+question(["Give","me","recommendations","for" | L0],L1,C0,C1) :-
+    description_phrase(L0,L1,C0,C1).
+question(["give","me" | L0],L1,C0,C1) :-
+    description_phrase(L0,L1,C0,C1).
 question(["What","is" | L0],L1,C0,C1) :-
     description_phrase(L0,L1,C0,C1).
-% question(["What" | L0],L2,C0,C2) :-
-%     description_phrase(L0,L1,C0,C1),
-%     mp(L1,L2,C1,C2).
-% question(["What" | L0],L1,C0,C1) :-
-%     mp(L0,L1,C0,C1).
+question(["what","is" | L0],L1,C0,C1) :-
+    description_phrase(L0,L1,C0,C1).
+question(["What","are" | L0],L1, [numOfRest(5) | C0],C1) :-
+    description_phrase(L0,L1,C0,C1).
 
 %% a modified noun phrase
 description_phrase(L0,L5,C0,C5) :-
@@ -182,6 +188,7 @@ adj(["hotpot" | L], L,  [queryParam("categories", "hotpot") | C], C).
 adj(["hotpot" | L], L,  [queryParam("categories", "sandwiches") | C], C).
 adj(["hotpot" | L], L,  [queryParam("categories", "hotdogs") | C], C).
 
+% adj([_ | L], L, C, C).
 
 adj(["vegan" | L], L,  [queryParam("categories", "vegan") | C], C).
 adj(["vegetarian" | L], L,  [queryParam("categories", "vegetarian") | C], C).
