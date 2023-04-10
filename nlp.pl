@@ -55,6 +55,16 @@ aps(L,L,C,C).
 %% and
 and_conj(["and" | L],L,C,C).
 
+
+%% user/JSON specific filers
+ap(["cheap" | L], L, [jsonFilter("price", "$") | C], C).
+ap(["resonably", "priced" | L], L, [jsonFilter("price", "$$") | C], C).
+ap(["affordable" | L], L, [jsonFilter("price", "$$") | C], C).
+ap(["expensive" | L], L, [jsonFilter("price", "$$$") | C], C).
+ap(["very", "expensive" | L], L, [jsonFilter("price", "$$$$") | C], C).
+ap(["poorly", "rated" | L], L, [jsonFilter("rating", 2.0) | C], C).
+ap(["moderately", "rated" | L], L, [jsonFilter("rating", 3.5) | C], C).
+ap(["highly", "rated" | L], L, [jsonFilter("rating", 5.0) | C], C).
 %% additional property (free)
 ap(["deals" | L], L, [queryParam("attributes", "deals") | C], C).
 ap(["hot", "and", "new" | L], L, [queryParam("attributes", "hot_and_new") | C], C).
@@ -98,12 +108,13 @@ count(["a" | L],L,[numOfRest(1)| C],C).
 count(["an" | L],L,[numOfRest(1)| C],C).
 count(["1" | L],L,[numOfRest(1)| C],C).
 count(["one" | L],L,[numOfRest(1)| C],C).
-count(L,L,[numOfRest(1)| C],C).
+count(L,L,[numOfRest(5)| C],C).
 
 
 noun(["restaurant" | L], L,  C, C).
 noun(["restaurants" | L], L,  [numOfRest(5)| C], C).
 noun(["place" | L], L,  C, C).
+noun(["places" | L], L, [numOfRest(5)| C], C).
 noun(["shop" | L], L,  C, C).
 noun(["shops" | L], L,  [numOfRest(5)| C], C).
 noun(["store" | L], L,  C, C).
@@ -142,8 +153,8 @@ adj(["very", "expensive" | L], L, [jsonFilter("price", "$$$$") | C], C).
 adj(["poorly", "rated" | L], L, [jsonFilter("rating", 2.0) | C], C).
 adj(["moderately", "rated" | L], L, [jsonFilter("rating", 3.5) | C], C).
 adj(["highly", "rated" | L], L, [jsonFilter("rating", 5.0) | C], C).
-adj(["Chinese" | L], L,  [queryParam("categories", "chinese") | C], C).
 
+adj(["Chinese" | L], L,  [queryParam("categories", "chinese") | C], C).
 adj(["Australian" | L], L,  [queryParam("categories", "australian") | C], C).
 adj(["Cantonese" | L], L,  [queryParam("categories", "cantonese") | C], C).
 adj(["Australian" | L], L,  [queryParam("categories", "australian") | C], C).
