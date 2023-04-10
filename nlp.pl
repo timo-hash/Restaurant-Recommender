@@ -60,7 +60,7 @@ omp(L,L,_,C,C).
 
 ask(Q,QPs) :-
     get_request_params(Q,QPs),
-    write("debug: QPs = "), write(QPs). % debug
+    write("debug: QPs = "), write(QPs), write("\n"). % debug
 
 get_request_params(Q,RPs) :-
     question(Q,End,RPs,[]),

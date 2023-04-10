@@ -2,7 +2,7 @@
 :- [nlp].
 :- [getRestInfo].
 
-% What is a restaurant in Sydney with deals?
+% What is a restaurant in Seattle with deals and outdoor seating?
 % What is a restaurant in Sydney?
 
 start(Recommendation) :-
@@ -26,7 +26,7 @@ askFor(Recommendation) :-
         ;
         true 
     ),
-    get_first_restaurant_info(ResponseDict, Recommendation).
+    get_first_restaurant_info(ResponseDict, Recommendation),
     
 askFor(Recommendation) :-
     write("No more answers\n\n"),

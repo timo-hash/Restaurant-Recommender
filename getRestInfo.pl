@@ -33,18 +33,14 @@ get_first_restaurant_info(Dict, ReturnedResult) :-
 get_Businesses_Dict(ResponseDict, BusinessesList) :-
     BusinessesList = ResponseDict.get('businesses').
 
-get_price(SingleRestaurant) :-
-    Price = SingleRestaurant.get('price'),
-    write('Price: '), write(Price), nl.
+get_info(SingleRestaurant, PropertyName, JSONProperty, [], [AddInfo]) :-
+    RetrievedValue = SingleRestaurant.get(JSONProperty),
+    atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo), !.
 
 get_info(SingleRestaurant, PropertyName, JSONProperty, RestaurantInfoList, [AddInfo | RestaurantInfoList]) :-
     RetrievedValue = SingleRestaurant.get(JSONProperty),
-    atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo),
-    !.
-
-get_info(SingleRestaurant, PropertyName, JSONProperty, [], [AddInfo]) :-
-    RetrievedValue = SingleRestaurant.get(JSONProperty),
     atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo).
+
 
 
 get_first([H|_], H).
