@@ -8,7 +8,7 @@
 %% constants
 baseURL('https://api.yelp.com/v3/businesses/search?').
 % max limit = 50, max offset = 1000. Adjust offset to get different results
-defaultApiSetting('term=restaurants&sort_by=best_match&limit=50&offset=0&').
+defaultApiSetting('term=restaurants&sort_by=best_match&limit=50&offset=200&').
 
 %% creates API url, makes API call and retrieves response
 make_api_call(QueryParamList, OutputJSONFileName, ResponseDict) :-

@@ -81,5 +81,5 @@ check_rating(UpperBoundRating, RestaurantDict) :-
     Rating > LowerBound.
 
 %% get first item from list
-get_first([E], E).
+get_first([E], E) :- !.
 get_first([H|_], H).
