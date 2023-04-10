@@ -24,10 +24,16 @@ create_api_URL(QueryParamList, URL) :-
 yelp_fusion_api_call(API_URL, OutputJSONFileName, ResponseDict) :-
     yelpFusionApiKey(KEY),
     write("debug: API_URL = "), write(API_URL), write("\n"),
-    http_open(API_URL,
-              In,
-              [authorization(bearer(KEY)),
-            request_header('accept': 'application/json')]),
+    catch(
+        http_open(API_URL,In,
+              [authorization(bearer(KEY)), request_header('accept': 'application/json')]),
+        Exception,
+        (
+            write("Sorry we didn't get that, make sure the sentence is correct.\n"),
+            % format('Exception caught: ~w~n', [Exception]),  %debug
+            fail
+        )
+    ),
     json_read_dict(In, ResponseDict),
     close(In),
     % Write JSON response to file
