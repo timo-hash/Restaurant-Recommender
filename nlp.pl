@@ -6,13 +6,14 @@
 %     description_phrase(L0,L1,C0,C1),
 %     mp(L1,L2,C1,C2).
 question(["What","is" | L0],L1,C0,C1) :-
-    aphrase(L0,L1,C0,C1).
+    description_phrase(L0,L1,C0,C1).
 % question(["What" | L0],L2,C0,C2) :-
 %     description_phrase(L0,L1,C0,C1),
 %     mp(L1,L2,C1,C2).
 % question(["What" | L0],L1,C0,C1) :-
 %     mp(L0,L1,C0,C1).
 
+%% a modified noun phrase
 description_phrase(L0,L5,C0,C5) :-
     count(L0,L1,C0,C1),
     adjectives(L1,L2,C1,C2),
@@ -29,10 +30,14 @@ oap(L0,L2,C0,C2) :-
     aps(L1,L2,C1,C2).
 oap(L,L,C,C).
 
+%% phrase used to add additional detail to the previous phrase/noun
 connectingPhrase(["with" | L],L,C,C).
 connectingPhrase(["that", "has" | L],L,C,C).
+connectingPhrase(["that", "have" | L],L,C,C).
+connectingPhrase(["that", "is" | L],L,C,C).
+connectingPhrase(["that", "are" | L],L,C,C).
 
-% additional properties
+% additional properties (a, b, and c | a and b)
 aps(L0,L2,C0,C2) :-
     ap(L0,L1,C0,C1),
     aps(L1,L2,C1,C2).
@@ -41,22 +46,27 @@ aps(L0,L2,C0,C2) :-
     aps(L1,L2,C1,C2).
 aps(L,L,C,C).
 
-% and
+%% and
 and_conj(["and" | L],L,C,C).
 
-% additional property
+%% additional property (free)
 ap(["deals" | L], L, [queryParam("attributes", "deals") | C], C).
+ap(["hot", "and", "new" | L], L, [queryParam("attributes", "hot_and_new") | C], C).
+ap(["reservations" | L], L, [queryParam("attributes", "reservation") | C], C).
+ap(["gender", "neutral", "restrooms" | L], L, [queryParam("attributes", "gender_neutral_restrooms") | C], C).
+ap(["gender", "neutral", "restroom" | L], L, [queryParam("attributes", "gender_neutral_restrooms") | C], C).
+ap(["open", "to", "all " | L], L, [queryParam("attributes", "open_to_all") | C], C).
+ap(["wheelchair", "accessible" | L], L, [queryParam("attributes", "wheelchair_accessible") | C], C).
+%% additional property (premium)
 ap(["outdoor", "seating" | L], L, [queryParam("attributes", "outdoor_seating") | C], C).
 ap(["parking" | L], L, [queryParam("attributes", "parking_lot") | C], C).
 ap(["parking", "lot" | L], L, [queryParam("attributes", "parking_lot") | C], C).
 
+%% represent 1 or more adjetives
 adjectives(L0,L2,C0,C2) :-
     adj(L0,L1,C0,C1),
     adjectives(L1,L2,C1,C2).
 adjectives(L,L,C,C).
-
-aphrase(L0, L1,C0,C1) :- description_phrase(L0,L1,C0,C1).
-omp(L,L,_,C,C).
 
 ask(Q,QPs) :-
     get_request_params(Q,QPs),
@@ -108,9 +118,9 @@ noun(["tapas" | L], L,  [queryParam("categories", "tapasmallplates") | C], C).
 noun(["soul", "food" | L], L,  [queryParam("categories", "soulfood") | C], C).
 noun(["diners" | L], L,  [queryParam("categories", "diners") | C], C).
 noun(["hkcafe" | L], L,  [queryParam("categories", "hkcafe") | C], C).
-noun(["hk" "cafe" | L], L,  [queryParam("categories", "hkcafe") | C], C).
+noun(["hk", "cafe" | L], L,  [queryParam("categories", "hkcafe") | C], C).
 noun(["HK", "cafe" | L], L,  [queryParam("categories", "hkcafe") | C], C).
-noun(["Hong" "Kong", "cafe" | L], L,  [queryParam("categories", "hkcafe") | C], C).
+noun(["Hong", "Kong", "cafe" | L], L,  [queryParam("categories", "hkcafe") | C], C).
 noun(["lounge" | L], L,  [queryParam("categories", "lounges") | C], C).
 noun(["lounges" | L], L,  [numOfRest(5), queryParam("categories", "lounges") | C], C).
 noun(["comfort", "food" | L], L,  [queryParam("categories", "comfortfood") | C], C).
