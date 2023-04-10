@@ -30,7 +30,7 @@ yelp_fusion_api_call(API_URL, OutputJSONFileName, ResponseDict) :-
     catch(
         http_open(API_URL,In,
               [authorization(bearer(KEY)), request_header('accept': 'application/json')]),
-        Exception,
+        _, % Exception
         (
             write("Sorry we didn't get that, make sure the sentence is correct.\n"),
             % format('Exception caught: ~w~n', [Exception]),  %debug
