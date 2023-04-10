@@ -26,8 +26,9 @@ askFor(Recommendation) :-
         ;
         true 
     ),
-    get_first_restaurant_info(ResponseDict, Recommendation),
+    get_num_of_restaurant(ResponseDict, Recommendation).
     
 askFor(Recommendation) :-
-    write("No more answers\n\n"),
+    write("No more answers. \n\n"),
+    write("Ask me again!\n"),
     askFor(Recommendation).

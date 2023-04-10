@@ -12,23 +12,17 @@ more_than_0(X, hasResultsJSON) :-
     X > 0, !.
 more_than_0(_, noResultsJSON).
 
-% get_first_restaurant_info(Dict, Property, ReturnedResult) :-
-%     get_Businesses_Dict(Dict, ListOfBusiness),
-%     get_first(ListOfBusiness, Restaurant),
-%     call(Property, Restaurant, ReturnedResult).
-
-get_first_restaurant_info(Dict, ReturnedResult) :-
+get_num_of_restaurant(Dict, ReturnedResult) :-
     get_Businesses_Dict(Dict, ListOfBusiness),
-    get_first(ListOfBusiness, Restaurant),
-    call(get_info, Restaurant, 'Rating', 'rating', [], R),
-    call(get_info, Restaurant, 'Phone no.', 'phone', R, R1),
-    call(get_info, Restaurant, 'Website', 'url', R1, R2),
-    call(get_info, Restaurant, 'Name', 'name', R2, ReturnedResult).
+    get_all_restaurant_info(ListOfBusiness, ReturnedResult).
 
-% get_all_restaurant_info(Dict, Property, ReturnedResult) :-
-%     get_Businesses_Dict(Dict, ListOfBusiness),
-%     get_first(ListOfBusiness, Restaurant),
-%     call(Property, Restaurant, ReturnedResult).
+get_first_restaurant_info(ListOfBusiness, ReturnedResult) :-
+    get_first(ListOfBusiness, Restaurant),
+    retrieveInfo(Restaurant, ReturnedResult).
+    
+get_all_restaurant_info(ListOfBusiness, ReturnedResult) :-
+    member(Restaurant, ListOfBusiness),
+    retrieveInfo(Restaurant, ReturnedResult).
 
 get_Businesses_Dict(ResponseDict, BusinessesList) :-
     BusinessesList = ResponseDict.get('businesses').
@@ -41,9 +35,14 @@ get_info(SingleRestaurant, PropertyName, JSONProperty, RestaurantInfoList, [AddI
     RetrievedValue = SingleRestaurant.get(JSONProperty),
     atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo).
 
+retrieveInfo(Restaurant, ReturnedResult) :-
+    call(get_info, Restaurant, 'Rating', 'rating', [], R),
+    call(get_info, Restaurant, 'Website', 'url', R, R1),
+    call(get_info, Restaurant, 'Phone no.', 'phone', R1, R2),
+    call(get_info, Restaurant, 'Name', 'name', R2, ReturnedResult).
 
-
-get_first([H|_], H).
 get_first([E], E).
+get_first([H|_], H).
 
-% my_map([H|_], H)
+get_next([E], E, []).
+get_next([H|T], H, T).
