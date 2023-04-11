@@ -23,6 +23,7 @@ askFor(Recommendation) :-
         true
     ),
 
+
     get_request_params(ListOfWords, RequestParamsList),
     % write("debug: RequestParamsList = "), write(RequestParamsList), write("\n"),
 
@@ -42,3 +43,9 @@ askFor(Recommendation) :-
     write("No more answers. \n\n"),
     write("Ask me again! (Type 'quit' to exit)\n"),
     askFor(Recommendation).
+
+% Some questions you could ask:
+% What is a cheap chinese restaurant in Vancouver that has outdoor seating?
+% What are some cheap chinese restaurants in Vancouver that has outdoor seating?
+% Enlighten me with a couple of highly rated, chinese restaurants in Vancouver which is cheap?
+% What are some cheap Indian restaurants in Vancouver which is cheap?
