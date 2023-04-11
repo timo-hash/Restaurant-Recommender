@@ -14,6 +14,15 @@ askFor(Recommendation) :-
 
     read_line_to_string(user_input, St), 
     split_string(St, " -", " ,?.!-", ListOfWords), % ignore punctuation
+
+    (memberchk("quit", ListOfWords) ->
+        write("Goodbye!\n"),
+        !,
+        fail
+        ;
+        true
+    ),
+
     ask(ListOfWords, RequestParamsList),
 
     request_to_query_params(RequestParamsList, QueryParamList),
@@ -31,3 +40,7 @@ askFor(Recommendation) :-
     write("No more answers. \n\n"),
     write("Ask me again!\n"),
     askFor(Recommendation).
+
+% Some questions you could ask:
+% What is a cheap chinese restaurant in Vancouver that has outdoor seating?
+% What are some cheap chinese restaurants in Vancouver that has outdoor seating?
