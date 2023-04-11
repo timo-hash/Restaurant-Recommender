@@ -2,6 +2,10 @@ question(["Recommend","me" | L0],L1,C0,C1) :-
     description_phrase(L0,L1,C0,C1).
 question(["recommend","me" | L0],L1,C0,C1) :-
     description_phrase(L0,L1,C0,C1).
+question(["Enlighten","me", "with" | L0],L1,C0,C1) :-
+    description_phrase(L0,L1,C0,C1).
+question(["enlighten","me", "with" | L0],L1,C0,C1) :-
+    description_phrase(L0,L1,C0,C1).
 question(["Give","me" | L0],L1,C0,C1) :-
     description_phrase(L0,L1,C0,C1).
 question(["Give","me","recommendations","for" | L0],L1,C0,C1) :-
@@ -74,13 +78,17 @@ connectingPhrase(["that", "has" | L],L,C,C).
 connectingPhrase(["that", "have" | L],L,C,C).
 connectingPhrase(["that", "is" | L],L,C,C).
 connectingPhrase(["that", "are" | L],L,C,C).
+connectingPhrase(["which", "has" | L],L,C,C).
+connectingPhrase(["which", "have" | L],L,C,C).
+connectingPhrase(["which", "is" | L],L,C,C).
+connectingPhrase(["which", "are" | L],L,C,C).
 
 %% and
 and_conj(["and" | L],L,C,C).
 
 %% user/JSON specific filers
 ap(["cheap" | L], L, [jsonFilter("price", "$") | C], C).
-ap(["resonably", "priced" | L], L, [jsonFilter("price", "$$") | C], C).
+ap(["reasonably", "priced" | L], L, [jsonFilter("price", "$$") | C], C).
 ap(["affordable" | L], L, [jsonFilter("price", "$$") | C], C).
 ap(["expensive" | L], L, [jsonFilter("price", "$$$") | C], C).
 ap(["very", "expensive" | L], L, [jsonFilter("price", "$$$$") | C], C).
@@ -135,7 +143,7 @@ noun(["poutineries" | L], L,  [numOfRest(5), queryParam("categories", "poutineri
 
 
 adj(["cheap" | L], L, [jsonFilter("price", "$") | C], C).
-adj(["resonably", "priced" | L], L, [jsonFilter("price", "$$") | C], C).
+adj(["reasonably", "priced" | L], L, [jsonFilter("price", "$$") | C], C).
 adj(["affordable" | L], L, [jsonFilter("price", "$$") | C], C).
 adj(["expensive" | L], L, [jsonFilter("price", "$$$") | C], C).
 adj(["very", "expensive" | L], L, [jsonFilter("price", "$$$$") | C], C).
