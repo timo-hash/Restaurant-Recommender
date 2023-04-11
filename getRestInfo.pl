@@ -38,11 +38,21 @@ get_Businesses_Dict(ResponseDict, BusinessesList) :-
 
 %% given the key, get the value in the restaurant(Dict) and append to a list
 get_info(SingleRestaurant, PropertyName, JSONProperty, [], [AddInfo]) :-
-    RetrievedValue = SingleRestaurant.get(JSONProperty),
-    atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo), !.
+    %% if key doesn't exist in JSON, then just ignore it
+    (get_dict(JSONProperty, SingleRestaurant, _) ->
+        RetrievedValue = SingleRestaurant.get(JSONProperty),
+        atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo)
+        ;
+        AddInfo = ""
+    ), !.
 get_info(SingleRestaurant, PropertyName, JSONProperty, RestaurantInfoList, [AddInfo | RestaurantInfoList]) :-
-    RetrievedValue = SingleRestaurant.get(JSONProperty),
-    atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo).
+    %% if key doesn't exist in JSON, then just ignore it
+    (get_dict(JSONProperty, SingleRestaurant, _) ->
+        RetrievedValue = SingleRestaurant.get(JSONProperty),
+        atomic_list_concat([PropertyName, ": ", RetrievedValue], AddInfo)
+        ;
+        AddInfo = ""
+    ).
 
 %% extract the name, phone #, website and rating of a restaurant(Dict)
 retrieveInfo(Restaurant, ReturnedResult) :-

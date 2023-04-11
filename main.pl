@@ -1,7 +1,6 @@
 :- [api].
 :- [nlp].
 :- [getRestInfo].
-% What is a restaurant in Seattle with deals and outdoor seating?
 
 %% start here, returns recommendations
 iCannotDecide(Recommendation) :-
