@@ -115,12 +115,20 @@ noun(["shops" | L], L,  [numOfRest(5)| C], C).
 noun(["store" | L], L,  C, C).
 noun(["stores" | L], L,  [numOfRest(5)| C], C).
 noun(["house" | L], L,  C, C).
-noun(["bar" | L], L,  [queryParam("categories", "bars"), queryParam("categories", "cocktailbars"), queryParam("categories", "wine_bars"), queryParm("categories", "sportsbars") | C], C).
-noun(["bars" | L], L,  [numOfRest(5), queryParam("categories", "bars"), queryParam("categories", "cocktailbars"), queryParam("categories", "wine_bars"), queryParm("categories", "sportsbars") | C], C).
-noun(["cafe" | L], L,  [queryParam("categories", "cafes") | C], C).
-noun(["cafes" | L], L,  [numOfRest(5), queryParam("categories", "cafes") | C], C).
-noun(["pub" | L], L,  [queryParam("categories", "pubs"), queryParam("categories", "brewpubs"), queryParam("categories", "gastropubs")| C], C).
-noun(["pubs" | L], L,  [numOfRest(5), queryParam("categories", "pubs"), queryParam("categories", "brewpubs"), queryParam("categories", "gastropubs")| C], C).
+noun(["cocktail", "bar" | L], L,  [queryParam("categories", "cocktailbars") | C], C).
+noun(["cocktail", "bars" | L], L,  [numOfRest(5), queryParam("categories", "cocktailbars") | C], C).
+noun(["wine", "bar" | L], L,  [queryParam("categories", "wine_bars") | C], C).
+noun(["wine", "bars" | L], L,  [numOfRest(5), queryParam("categories", "wine_bars") | C], C).
+noun(["sports", "bar" | L], L,  [queryParam("categories", "sportsbars") | C], C).
+noun(["sports", "bars" | L], L,  [numOfRest(5), queryParam("categories", "sportsbars") | C], C).
+noun(["whisky", "bar" | L], L,  [queryParam("categories", "whiskeybars") | C], C).
+noun(["whisky", "bars" | L], L,  [numOfRest(5), queryParam("categories", "whiskeybars") | C], C).
+noun(["pub" | L], L,  [queryParam("categories", "pubs") | C], C).
+noun(["pubs" | L], L,  [numOfRest(5), queryParam("categories", "pubs") | C], C).
+noun(["brewpub" | L], L,  [queryParam("categories", "brewpubs") | C], C).
+noun(["brewpubs" | L], L,  [numOfRest(5), queryParam("categories", "brewpubs") | C], C).
+noun(["gastropub" | L], L,  [queryParam("categories", "gastropubs") | C], C).
+noun(["gastropubs" | L], L,  [numOfRest(5), queryParam("categories", "gastropubs") | C], C).
 noun(["venue" | L], L,  [queryParam("categories", "venues") | C], C).
 noun(["venues" | L], L,  [numOfRest(5), queryParam("categories", "venues") | C], C).
 noun(["smokehouse" | L], L,  [queryParam("categories", "smokehouse") | C], C).
@@ -205,6 +213,8 @@ adj(["Cajun" | L], L,  [queryParam("categories", "cajun") | C], C).
 adj(["cajun" | L], L,  [queryParam("categories", "cajun") | C], C).
 adj(["Creole" | L], L,  [queryParam("categories", "cajun") | C], C).
 adj(["creole" | L], L,  [queryParam("categories", "cajun") | C], C).
+adj(["Irish" | L], L,  [queryParam("categories", "irish") | C], C).
+adj(["irish" | L], L,  [queryParam("categories", "irish") | C], C).
 
 
 adj(["breakfast" | L], L,  [queryParam("categories", "breakfast_brunch") | C], C).
