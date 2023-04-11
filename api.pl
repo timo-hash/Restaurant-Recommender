@@ -1,32 +1,48 @@
 
-% yelp_fusion_api_call('response.json').
-
 :- use_module(library(http/json)).
 :- use_module(library(http/http_open)).
 :- [apiKey].
 
 %% constants
 baseURL('https://api.yelp.com/v3/businesses/search?').
-% max limit = 50, max offset = 1000. Adjust offset to get different results
-defaultApiSetting('term=restaurants&sort_by=best_match&limit=50&offset=200&').
+defaultApiSetting('term=restaurants&sort_by=best_match&').
 
-%% creates API url, makes API call and retrieves response
+max_offset(950).
+max_limit(50).
+
+%% loop through API calls from 0 to max_offset and merge responses into one dictionary
 make_api_call(QueryParamList, OutputJSONFileName, ResponseDict) :-
-    create_api_URL(QueryParamList, URL),
-    yelp_fusion_api_call(URL, OutputJSONFileName, ResponseDict).
+    max_offset(OFFSET),
+    max_limit(LIMIT),
+    create_list(0, OFFSET, LIMIT, OffsetList),
+    maplist(create_api_URL(QueryParamList), OffsetList, UrlList),
+    maplist(yelp_fusion_api_call, UrlList, Responses),
+    merge_dicts(Responses, ResponseDict),
+    dict_to_json(ResponseDict, OutputJSONFileName).
 
 %% creates API url based on user input
-create_api_URL(QueryParamList, URL) :-
+create_api_URL(QueryParamList, Offset, URL) :-
     baseURL(Base),
     defaultApiSetting(Setting),
-    atomic_concat(Base,Setting,R),
+    atomic_concat(Base, Setting, BaseWithSetting),
+    max_limit(MaxLimit),
+    create_pagination_param_URL(MaxLimit, Offset, PaginationUrl),
     create_query_param_URL(QueryParamList, QueryParamTailURL),
-    atomic_concat(R,QueryParamTailURL,URL).
+    atomic_concat(BaseWithSetting, PaginationUrl, PaginatedBaseURL),
+    atomic_concat(PaginatedBaseURL, QueryParamTailURL, URL).
 
-%% Makes the API call and retrieves response in JSON format
-yelp_fusion_api_call(API_URL, OutputJSONFileName, ResponseDict) :-
+%% generate query params for limit and offset
+create_pagination_param_URL(Limit, Offset, URL) :-
+    atomic_concat('limit=', Limit, LimitParamT),
+    atomic_concat(LimitParamT, '&', LimitParam),
+    atomic_concat('offset=', Offset, OffsetParamT),
+    atomic_concat(OffsetParamT, '&', OffsetParam),
+    atomic_concat(LimitParam, OffsetParam, URL).
+
+%% makes the API call and retrieves response in JSON format
+yelp_fusion_api_call(API_URL, ResponseDict) :-
     yelpFusionApiKey(KEY),
-    % write("debug: API_URL = "), write(API_URL), write("\n"), %debug
+    % write("debug: API_URL = "), write(API_URL), write("\n"),
     catch(
         http_open(API_URL,In,
               [authorization(bearer(KEY)), request_header('accept': 'application/json')]),
@@ -38,15 +54,40 @@ yelp_fusion_api_call(API_URL, OutputJSONFileName, ResponseDict) :-
         )
     ),
     json_read_dict(In, ResponseDict),
-    close(In),
-    % Write JSON response to file
-    dict_to_json(ResponseDict, OutputJSONFileName).
+    close(In).
+
+merge_dicts(Dicts, Merged) :-
+    sum_totals(Dicts, 0, Total),
+    merge_businesses(Dicts, [], MergedBusiness),
+    Merged = _{business:MergedBusiness, total:Total}.
+
+merge_businesses([], MergedBusiness, MergedBusiness).
+merge_businesses([Dict|Rest], MergedSoFar, Merged) :-
+    get_dict(businesses, Dict, Businesses),
+    append(Businesses, MergedSoFar, NewMerged),
+    merge_businesses(Rest, NewMerged, Merged).
+
+sum_totals([], Total, Total).
+sum_totals([Dict|Rest], TotalSoFar, Total) :-
+    get_dict(total, Dict, ThisTotal),
+    NewTotalSoFar is TotalSoFar + ThisTotal,
+    sum_totals(Rest, NewTotalSoFar, Total).
+
+create_list(Lower, Upper, Step, List) :-
+    create_list(Lower, Upper, Step, [], List).
+
+create_list(Current, Upper, Step, Acc, [Current|Acc]) :-
+    Current + Step > Upper, !.
+
+create_list(Current, Upper, Step, Acc, List) :-
+    NewCurrent is Current + Step,
+    create_list(NewCurrent, Upper, Step, [Current|Acc], List).
 
 %% writes dictionary to JSON file, file is saved locally
 dict_to_json(Dict, JSONFileName) :-
     atom_string(JSONFileAtom, JSONFileName),
     open(JSONFileAtom, write, Out),
-    json_write_dict(Out, Dict),
+    json_write_dict(Out, Dict, [null('')]),
     close(Out).
 
 %% Converts JSON to dictionary
