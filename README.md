@@ -3,10 +3,10 @@
 ### Description
 Ask the recommender question, and it will give you restaurant recommendations for a particular city. 
 You can specify the type of:
-- **cuisine** *(e.g. vietnamese, korean restaurants, burger places, bars, bubble tea shops)*, 
+- **cuisine** *(e.g. vietnamese, korean restaurants, burger places, bars, bubble tea shops...)*, 
 - **rating** *(i.e. highly, moderately, poorly rated)*, 
 - **price** *(i.e. cheap, affordable, expensive, very expensive)*, 
-- and certain **amenities** *(e.g. open-to-all, gender neutral restrooms, has deals, hot-and-new, wheelchar accessible)*.
+- and certain **amenities** *(e.g. open-to-all, gender neutral restrooms, has deals, hot-and-new, wheelchar accessible...)*.
 
 ### Usage
 To get started, on the console, type :
