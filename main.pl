@@ -15,7 +15,9 @@ askFor(Recommendation) :-
     read_line_to_string(user_input, St), 
     split_string(St, " -", " ,?.!-", ListOfWords), % ignore punctuation
     ask(ListOfWords, RequestParamsList),
-
+    write("debug: RequestParamsList = "), write(RequestParamsList), write("\n"),
+    
+    
     request_to_query_params(RequestParamsList, QueryParamList),
     make_api_call(QueryParamList, "response.json", ResponseDict),
     check_any_results_returned(ResponseDict, HaveResult),

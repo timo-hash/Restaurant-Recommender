@@ -14,6 +14,8 @@ question(["what","is" | L0],L1,C0,C1) :-
     description_phrase(L0,L1,C0,C1).
 question(["What","are" | L0],L1, [numOfRest(5) | C0],C1) :-
     description_phrase(L0,L1,C0,C1).
+question(["what","are" | L0],L1, [numOfRest(5) | C0],C1) :-
+    description_phrase(L0,L1,C0,C1).
 
 %% a modified noun phrase
 description_phrase(L0,L5,C0,C5) :-
@@ -143,6 +145,8 @@ adj(["highly", "rated" | L], L, [jsonFilter("rating", 5.0) | C], C).
 
 adj(["Chinese" | L], L,  [queryParam("categories", "chinese") | C], C).
 adj(["chinese" | L], L,  [queryParam("categories", "chinese") | C], C).
+adj(["Japanese" | L], L,  [queryParam("categories", "japanese") | C], C).
+adj(["japanese" | L], L,  [queryParam("categories", "japanese") | C], C).
 adj(["Australian" | L], L,  [queryParam("categories", "australian") | C], C).
 adj(["australian" | L], L,  [queryParam("categories", "australian") | C], C).
 adj(["Cantonese" | L], L,  [queryParam("categories", "cantonese") | C], C).
