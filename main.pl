@@ -44,3 +44,5 @@ askFor(Recommendation) :-
 % Some questions you could ask:
 % What is a cheap chinese restaurant in Vancouver that has outdoor seating?
 % What are some cheap chinese restaurants in Vancouver that has outdoor seating?
+% Enlighten me with a couple of highly rated, chinese restaurants in Vancouver which is cheap?
+% What are some cheap Indian restaurants in Vancouver which is cheap?
