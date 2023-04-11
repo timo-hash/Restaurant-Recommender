@@ -46,12 +46,10 @@ adjectives(L0,L2,C0,C2) :-
     adjectives(L1,L2,C1,C2).
 adjectives(L,L,C,C).
 
-ask(Q,QPs) :-
-    get_request_params(Q,QPs),
-    write("debug: QPs = "), write(QPs), write("\n"). % debug
-
+%% parse user input string to a list of request parameters
 get_request_params(Q,RPs) :-
     question(Q,End,RPs,[]),
+    % write("debug: QPs = "), write(RPs), write("\n"), % debug
     member(End,[[],["?"],["."]]).
 
 %% Knowledge base

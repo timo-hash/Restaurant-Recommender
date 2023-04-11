@@ -26,7 +26,7 @@ create_api_URL(QueryParamList, URL) :-
 %% Makes the API call and retrieves response in JSON format
 yelp_fusion_api_call(API_URL, OutputJSONFileName, ResponseDict) :-
     yelpFusionApiKey(KEY),
-    write("debug: API_URL = "), write(API_URL), write("\n"),
+    % write("debug: API_URL = "), write(API_URL), write("\n"), %debug
     catch(
         http_open(API_URL,In,
               [authorization(bearer(KEY)), request_header('accept': 'application/json')]),
